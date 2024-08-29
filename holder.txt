@@ -1,0 +1,68 @@
+{% block myjs %}
+    {% endblock %}
+
+
+
+
+    <script src="{% static 'js/dashboard/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/sidebarmenu.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/app.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/simplebar/dist/simplebar.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/dashboard.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/confetti.js' %}"></script>
+
+    <script>
+        // Get references to the sidebar and the toggle button
+        const sidebar = document.getElementById('sidebar');
+        const sidebarCollapse = document.getElementById('sidebarCollapse');
+
+        // Function to close the sidebar
+        function closeSidebar() {
+            sidebar.classList.remove('show');
+        }
+
+        // Event listener for clicks on the toggle button
+        sidebarCollapse.addEventListener('click', function () {
+            sidebar.classList.toggle('show');
+        });
+
+        // Event listener for clicks outside the sidebar
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+            if (!sidebar.contains(target) && target !== sidebarCollapse) {
+                closeSidebar();
+            }
+        });
+    </script>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+
+    <!-- <script>
+        document.getElementById('btnSwitch').addEventListener('click',()=>{
+            if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+                document.documentElement.setAttribute('data-bs-theme','light')
+            }
+            else {
+                document.documentElement.setAttribute('data-bs-theme','dark')
+            }
+        })
+    </script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const themeToggleButton = document.getElementById('theme-toggle');
+            themeToggleButton.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+        });
+    </script>

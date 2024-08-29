@@ -1,0 +1,416 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Law College Portal{% endblock %}</title>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>⚖️</text></svg>"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/student/dashboard/styles.min.css' %}"
+    />
+    <style>
+      body {
+        background: linear-gradient(to bottom right, #1a1a40, #f2f2f2);
+        background-repeat: no-repeat;
+      }
+
+      .star {
+        color: #b22222;
+        display: inline;
+      }
+
+      .blinking-dot {
+        animation: blink 1.5s infinite;
+        color: #b22222;
+        font-size: large;
+        position: relative;
+        top: -0.3em;
+      }
+
+      .navbar-light {
+        background-color: #1a1a40;
+        color: #f2f2f2;
+      }
+
+      .nav-link {
+        color: #f2f2f2 !important;
+      }
+
+      .btn-primary {
+        background-color: #8b0000;
+        border-color: #8b0000;
+      }
+
+      .page-wrapper {
+        background-color: #f8f9fa;
+      }
+
+      .card-title {
+        color: #1a1a40;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-bs-theme", theme);
+      });
+    </script>
+
+    {% block css %}{% endblock %}
+  </head>
+
+  <body style="background-attachment: fixed">
+    <!--  Body Wrapper -->
+    <div
+      class="page-wrapper"
+      id="main-wrapper"
+      data-layout="vertical"
+      data-navbarbg="skin6"
+      data-sidebartype="full"
+      data-sidebar-position="fixed"
+      data-header-position="fixed"
+    >
+      <!-- Sidebar Start -->
+      <aside class="left-sidebar" id="sidebar">
+        <!-- Sidebar scroll-->
+        <div>
+          <div
+            class="brand-logo d-flex align-items-center justify-content-between"
+          >
+            <a href="{% url 'student' %}" class="text-nowrap logo-img">
+              <img
+                src="{% static 'img/law/logo.png' %}"
+                <!--
+                Update
+                with
+                law
+                college
+                logo
+                --
+              />
+              alt="" style="width: 100%" />
+            </a>
+            <div
+              class="close-btn d-block d-xl-none sidebartoggler cursor-pointer"
+              id="sidebarCollapse"
+            >
+              <i class="ti ti-x fs-8"></i>
+            </div>
+          </div>
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Main Account</span>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'student' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-gavel"></i>
+                  </span>
+                  <span class="hide-menu">Dashboard ⚖️</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'my_sessions' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-briefcase"></i>
+                  </span>
+                  <span class="hide-menu">My Sessions</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'assignments' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-book"></i>
+                  </span>
+                  <span class="hide-menu">Assignments</span>
+                </a>
+              </li>
+
+              <!-- ========================= EXTRA LEARNING ============================= -->
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Learning</span>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'playground' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-law"></i>
+                  </span>
+                  <span class="hide-menu">Moot Court</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'reading_material' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-file-text"></i>
+                  </span>
+                  <span class="hide-menu">Case Studies</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'roadmap' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-compass"></i>
+                  </span>
+                  <span class="hide-menu">Career Roadmap</span>
+                </a>
+              </li>
+
+              <!-- ============================= EXTRA ==================== -->
+              <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Help Desk</span>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'notifications' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-announcement"></i>
+                  </span>
+                  <span class="hide-menu">What's New</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'anonymous_message' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-message"></i>
+                  </span>
+                  <span class="hide-menu">Messages</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'feedback' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-comment-dots"></i>
+                  </span>
+                  <span class="hide-menu">Feedback</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link"
+                  href="{% url 'my_profile' %}"
+                  aria-expanded="false"
+                >
+                  <span>
+                    <i class="ti ti-user"></i>
+                  </span>
+                  <span class="hide-menu">My Profile</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+      <!--  Sidebar End -->
+
+      <!--  Main wrapper -->
+      <div class="body-wrapper">
+        <!--  Header Start -->
+        <header class="app-header">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <ul class="navbar-nav">
+              <li class="nav-item d-block d-xl-none">
+                <a
+                  class="nav-link sidebartoggler nav-icon-hover"
+                  id="headerCollapse"
+                  href="javascript:void(0)"
+                >
+                  <i class="ti ti-menu-2"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link nav-icon-hover"
+                  href="{% url 'notifications' %}"
+                >
+                  <i class="ti ti-bell"></i>
+                </a>
+              </li>
+            </ul>
+            <div
+              class="navbar-collapse justify-content-end px-0"
+              id="navbarNav"
+            >
+              <ul
+                class="navbar-nav flex-row ms-auto align-items-center justify-content-end"
+              >
+                <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link nav-icon-hover"
+                    href="javascript:void(0)"
+                    id="drop2"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="{{ student.profile_pic.url }}"
+                      alt=""
+                      width="35"
+                      height="35"
+                      class="rounded-circle"
+                    />
+                  </a>
+                  <div
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                    aria-labelledby="drop2"
+                  >
+                    <div class="message-body">
+                      <a
+                        href="{% url 'my_profile' %}"
+                        class="d-flex align-items-center gap-2 dropdown-item"
+                      >
+                        <i class="ti ti-user fs-6"></i>
+                        <p class="mb-0 fs-3">My Profile</p>
+                      </a>
+                      <a
+                        href="{% url 'my_sessions' %}"
+                        class="d-flex align-items-center gap-2 dropdown-item"
+                      >
+                        <i class="ti ti-session fs-6"></i>
+                        <p class="mb-0 fs-3">My Sessions</p>
+                      </a>
+                      <a
+                        href="{% url 'logout' %}"
+                        class="btn btn-outline-primary mx-3 mt-2 d-block"
+                        >Logout</a
+                      >
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+        <!--  Header End -->
+
+        <!--  Main Container Start -->
+        <div class="container-fluid">{% block body %} {% endblock %}</div>
+      </div>
+    </div>
+    {% block myjs %} {% endblock %}
+
+    <script src="{% static 'js/dashboard/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/sidebarmenu.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/app.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <script src="{% static 'js/dashboard/libs/simplebar/dist/simplebar.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/dashboard.js' %}"></script>
+    <script src="{% static 'js/dashboard/js/confetti.js' %}"></script>
+
+    <script>
+      // Get references to the sidebar and the toggle button
+      const sidebar = document.getElementById("sidebar");
+      const sidebarCollapse = document.getElementById("sidebarCollapse");
+
+      // Function to close the sidebar
+      function closeSidebar() {
+        sidebar.classList.remove("show");
+      }
+
+      // Event listener for clicks on the toggle button
+      sidebarCollapse.addEventListener("click", function () {
+        sidebar.classList.toggle("show");
+      });
+
+      // Event listener for clicks outside the sidebar
+      document.addEventListener("click", function (event) {
+        const target = event.target;
+        if (!sidebar.contains(target) && target !== sidebarCollapse) {
+          closeSidebar();
+        }
+      });
+    </script>
+
+    <script>
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      );
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    </script>
+
+    <!-- <script>
+        document.getElementById('btnSwitch').addEventListener('click',()=>{
+            if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+                document.documentElement.setAttribute('data-bs-theme','light')
+            }
+            else {
+                document.documentElement.setAttribute('data-bs-theme','dark')
+            }
+        })
+    </script> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const themeToggleButton = document.getElementById("theme-toggle");
+        themeToggleButton.addEventListener("click", () => {
+          const currentTheme =
+            document.documentElement.getAttribute("data-bs-theme");
+          const newTheme = currentTheme === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+        });
+      });
+    </script>
+  </body>
+</html>
