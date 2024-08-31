@@ -17,6 +17,17 @@
       <div class="forms-container">
         <div class="signin-signup">
           <form action="{% url 'login' %}" method="post" class="sign-in-form">
+            {% for message in messages %}
+
+            <div class="row">
+              <div class="alert {{ message.tags }} fade show" role="alert">
+                <span class="alert-text text-white"
+                  ><strong>{{ message.tag }}</strong>{{ message }}</span
+                >
+              </div>
+            </div>
+
+            {% endfor %}
             <h2 class="title">Sign in</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -27,7 +38,9 @@
               <i class="fas fa-lock"></i>
               <input type="password" name="password" placeholder="Password" />
             </div>
+
             <input type="submit" value="Login" class="btn solid" />
+            {% comment %}
             <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">
@@ -43,6 +56,7 @@
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
+            {% endcomment %}
           </form>
           <form
             action="{% url 'register' %}"
@@ -80,7 +94,7 @@
               <i class="fas fa-lock"></i>
               <input type="password" name="password" placeholder="Password" />
             </div>
-            <input type="submit" class="btn" value="Sign up" />
+            <input type="submit" class="btn" value="Sign up" />{% comment %}
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon">
@@ -96,6 +110,7 @@
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
+            {% endcomment %}
           </form>
         </div>
       </div>
@@ -107,7 +122,14 @@
             <p>Let's get connect with Trail!</p>
             <button class="btn transparent" id="sign-up-btn">Sign up</button>
           </div>
-          <img src="{% static 'accounts/img/log.svg' %}" class="image" alt="" />
+          <img
+            src="{% static 'img/nagrik.png' %}"
+            class="image"
+            height="80%"
+            width="80%"
+            style
+            alt=""
+          />
         </div>
         <div class="panel right-panel">
           <div class="content">
@@ -118,8 +140,11 @@
             </button>
           </div>
           <img
-            src="{% static 'accounts/img/register.svg' %}"
+            src="{% static 'img/nagrik.png' %}"
             class="image"
+            height="80%"
+            width="80%"
+            style
             alt=""
           />
         </div>

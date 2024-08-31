@@ -1,42 +1,167 @@
-{% extends "student/base.html" %}
-{% load static %}
+{% extends "student/base.html" %} {% load static %} {% block title %} Student ->
+Playground {% endblock %} {% block body %}
 
-{% block title %}
-Student -> Playground
-{% endblock %}
-
-{% block body %}
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 <div class="container-fluid">
+  {% for message in messages %}
 
-    {% for message in messages %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{ message.tag }}</strong> {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
 
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>{{ message.tag }}</strong> {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  {% endfor %}
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title fw-semibold">Let's Learn and Test</h5>
+      <div class="fixed bottom-0 right-0 mb-4 mr-4">
+        <button id="open-chat" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Chat with Admin Bot
+        </button>
     </div>
+    </div>
+  </div>
 
-    {% endfor %}
+  
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title fw-semibold">Let's Learn and Test🔥</h5>
+<!-- Chatbox Container (Initially hidden) -->
+<div id="chat-container" class="hidden fixed bottom-16 right-4 w-96">
+    <div class="bg-white shadow-md rounded-lg max-w-lg w-full">
+        <div class="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
+            <p class="text-lg font-semibold">Admin Bot</p>
+            <button id="close-chat" class="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
-    </div>
-
-    <div class="card w-100">
-        <div class="card-body p-4">
-            <h5 class="card-title fw-semibold mb-4">Angaari Test 🔥
-            </h5>
-
-            <iframe src="http://bytecoachbeta.netlify.app"
-            height="530"
-            width="100%"
-             frameborder="0"></iframe>
-
+        <div id="chatbox" class="p-4 h-80 overflow-y-auto">
+            <!-- Chat messages will be displayed here -->
+            
+            <div class="mb-2">
+                <p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">Hello , Ask me Anything</p>
+            </div>
+        </div>
+        <div class="p-4 border-t flex">
+            <input id="user-input" type="text" placeholder="Type a message" class="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="send-button" class="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300">Send</button>
         </div>
     </div>
 </div>
 
+<!-- Chatbox Script -->
+<script>
+    const chatbox = document.getElementById("chatbox");
+    const chatContainer = document.getElementById("chat-container");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const openChatButton = document.getElementById("open-chat");
+    const closeChatButton = document.getElementById("close-chat");
 
-{% endblock %}
+    let isChatboxOpen = false; // Initially false to keep the chatbox hidden
+
+    // Function to toggle the chatbox visibility
+    function toggleChatbox() {
+        chatContainer.classList.toggle("hidden");
+        isChatboxOpen = !isChatboxOpen; // Toggle the state
+    }
+
+    // Add an event listener to the open chat button
+    openChatButton.addEventListener("click", toggleChatbox);
+
+    // Add an event listener to the close chat button
+    closeChatButton.addEventListener("click", toggleChatbox);
+
+    // Add an event listener to the send button
+    sendButton.addEventListener("click", function () {
+        const userMessage = userInput.value;
+        if (userMessage.trim() !== "") {
+            addUserMessage(userMessage);
+            respondToUser(userMessage);
+            userInput.value = "";
+        }
+    });
+
+    userInput.addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            const userMessage = userInput.value;
+            if (userMessage.trim() !== "") {
+                addUserMessage(userMessage);
+                respondToUser(userMessage);
+                userInput.value = "";
+            }
+        }
+    });
+
+    function addUserMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("mb-2", "text-right");
+        messageElement.innerHTML = `<p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">${message}</p>`;
+        chatbox.appendChild(messageElement);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function addBotMessage(message) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("mb-2");
+        messageElement.innerHTML = `<p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">${message}</p>`;
+        chatbox.appendChild(messageElement);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function respondToUser(userMessage) {
+        // Replace this with your chatbot logic
+        setTimeout(() => {
+            sendMessageToServer(userMessage)
+            //addBotMessage(userMessage);
+        }, 500);
+    }
+
+    function sendMessageToServer(userMessage) {
+        console.log(userMessage)
+        fetch('http://127.0.0.1:5000/query', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                {% comment %}  // Include CSRF token for Django {% endcomment %}
+            },
+            body: JSON.stringify({
+                question: userMessage
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response) {
+                addBotMessage(data.response);
+            } else {
+                addBotMessage("Sorry, something went wrong.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            addBotMessage("Error occurred while sending your message.");
+        });
+    }
+    
+</script>
+
+</body>
+</html>
+
+  
+
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
